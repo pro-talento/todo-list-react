@@ -1,20 +1,31 @@
 function Todo(props) {
-  render(
-    <li class="list-group-item" id=${id}>
-      <div class="row">
-        <div class="col-8" onclick="toggleTask('${id}', ${completed})">
+  const { children } = props;
+
+  return (
+    <li className="list-group-item">
+      <div className="row">
+        <div className="col-8" onClick={() => console.log('Click en todo ...')}>
           <input
-            id=${`${id}-input`}
-            class="form-control ${completed ? 'task-done' : ''}" 
-            value="${title}"
+            // className="form-control ${completed ? 'task-done' : ''}" 
+            value={children}
             disabled
           />
         </div>
-        <div class="col-2">
-          <button class="btn btn-warning" onclick="editTask('${id}')">Editar</button>
+        <div className="col-2">
+          <button 
+            className="btn btn-warning" 
+            onClick={() => console.log('Editar todo ...')}
+          >
+            Editar
+          </button>
         </div>
-        <div class="col-2">
-          <button class="btn btn-danger" id="${id}-delete" onclick="deleteTask('${id}')">X</button>
+        <div className="col-2">
+          <button 
+            className="btn btn-danger" 
+            onClick={() => console.log('Borrar todo ...')}
+          >
+            X
+          </button>
         </div>
       </div>
     </li>
