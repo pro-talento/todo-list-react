@@ -1,11 +1,17 @@
 
 function AuthForm(props) {
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    props.onSubmit()
+  }
+
   return (
     <div className="container-fluid mt-5">
       <div className="container login">
         <section className="card mb-5">
           <div className="card-body">
-            <form id="form-submit">
+            <form onSubmit={handleFormSubmit}>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                 <input name="email" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />

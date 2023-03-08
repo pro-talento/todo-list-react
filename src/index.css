@@ -1,0 +1,18 @@
+body { 
+  background-color: #2980b9;
+}
+
+.tasks { 
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.login {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.task-done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
