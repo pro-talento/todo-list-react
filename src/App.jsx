@@ -6,16 +6,16 @@ import TodoList from "./components/TodoList";
 
 function App() {
 
-  const [session, setSession] = useState(null)
+  const [token, setToken] = useState(null)
 
   return (
     <div className="container-fluid mt-5" id="todos-app">
       <div className="container tasks">
-        {!session && <AuthForm onSubmit={() => setSession(true)} />}
-        {session && (
+        {!token && <AuthForm onSubmit={(token) => setToken(token)} />}
+        {token && (
           <>
             <TodoInput />
-            <TodoList />
+            <TodoList token={token} />
           </>
         )}
       </div>
