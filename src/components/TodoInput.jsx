@@ -1,4 +1,43 @@
+import { useState } from 'react';
+
+const API_URL = 'http://localhost:8008';
+
+function createTodo(callback, data) {
+  fetch(`${API_URL}/tasks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': data.token
+    },
+    body: JSON.stringify({ title: data.todo })
+  })
+  .then(res => {
+    if (!res.ok) {
+      res.json()
+        .then((data) => {
+          console.error(data.message)
+        })
+      return;
+    }
+    return res.json()
+  })
+  .then((data) => {
+    callback(data)
+  })
+  .catch(error => {
+    console.error(error)
+  })
+}
+
 function TodoInput(props) {
+  const [todo, setTodo] = useState('')
+
+  const handleCreateTodo = () => {
+    createTodo((data) => {
+      console.log('Todo creado: ', data)
+      // Actualizar la lista de todos
+    }, { todo, token: props.token })
+  }
 
   return (
     <section className="card mb-5">
@@ -6,6 +45,8 @@ function TodoInput(props) {
         <div className="mb-3">
           <label htmlFor="task" className="form-label">Ingresar Todo</label>
           <input 
+            onChange={(event) => setTodo(event.target.value)}
+            value={todo}
             type="text" 
             className="form-control" 
             placeholder="Ir por unos tacos..."
@@ -15,6 +56,7 @@ function TodoInput(props) {
         </div>
         <div>
           <button 
+            onClick={handleCreateTodo}
             type="button"
             className="btn btn-success"
             id="submit-task-button"
