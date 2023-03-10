@@ -35,7 +35,8 @@ function TodoInput(props) {
   const handleCreateTodo = () => {
     createTodo((data) => {
       console.log('Todo creado: ', data)
-      // Actualizar la lista de todos
+      props.onCreateTodo()
+      setTodo('')
     }, { todo, token: props.token })
   }
 
