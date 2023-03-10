@@ -8,6 +8,7 @@ function TodoList(props) {
           <Todo 
             key={todo.id} 
             onDelete={() => props.onDeleteTodo(todo.id)}
+            onUpdate={(newTodo) => props.onUpdateTodo(todo.id, newTodo)}
           >
             {todo.title}
           </Todo>

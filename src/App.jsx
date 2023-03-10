@@ -32,6 +32,22 @@ function deleteTodoAPI(callback, { todoId }) {
   })
 }
 
+function editTodo(callback, data) {
+    fetch(`${API_URL}/tasks/${data.todoId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        title: data.newText
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((res) => res.json())
+    .then(data => {
+      callback(data)
+    })
+}
+
 function App() {
 
   const [token, setToken] = useState('1c9f04c1-2f37-480d-9d1c-49ee47ba947f')
@@ -53,6 +69,13 @@ function App() {
     }, { todoId })
   }
 
+  const updateTodo = (todoId, newText) => {
+    editTodo((data) => {
+      console.log('Tarea actualizada', data);
+      fetchTodos()
+    }, { todoId, newText})
+  }
+
   return (
     <div className="container-fluid mt-5" id="todos-app">
       <div className="container tasks">
@@ -66,7 +89,8 @@ function App() {
               }} />
             <TodoList 
               todos={todos} 
-              onDeleteTodo={deleteTodo}  
+              onDeleteTodo={deleteTodo} 
+              onUpdateTodo={updateTodo} 
             />
           </>
         )}
