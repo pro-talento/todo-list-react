@@ -20,6 +20,18 @@ function fetchTodoList(callback, token) {
   })
 }
 
+function deleteTodoAPI(callback, { todoId }) {
+  console.log('task to delete ', todoId)
+  fetch(`${API_URL}/tasks/${todoId}`, {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Se borro la tarea ', data)
+    callback(data)
+  })
+}
+
 function App() {
 
   const [token, setToken] = useState('1c9f04c1-2f37-480d-9d1c-49ee47ba947f')
@@ -35,6 +47,12 @@ function App() {
     fetchTodoList((todos) => setTodos(todos.list), token)
   }
 
+  const deleteTodo = (todoId) => {
+    deleteTodoAPI(() => {
+      fetchTodos()
+    }, { todoId })
+  }
+
   return (
     <div className="container-fluid mt-5" id="todos-app">
       <div className="container tasks">
@@ -46,7 +64,10 @@ function App() {
                 console.log('Se actualiza la lista')
                 //...
               }} />
-            <TodoList todos={todos} />
+            <TodoList 
+              todos={todos} 
+              onDeleteTodo={deleteTodo}  
+            />
           </>
         )}
       </div>

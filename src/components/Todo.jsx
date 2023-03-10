@@ -1,6 +1,6 @@
 function Todo(props) {
   const { children } = props;
-
+  console.log({ props })
   return (
     <li className="list-group-item">
       <div className="row">
@@ -22,7 +22,7 @@ function Todo(props) {
         <div className="col-2">
           <button 
             className="btn btn-danger" 
-            onClick={() => console.log('Borrar todo ...')}
+            onClick={props.onDelete}
           >
             X
           </button>
