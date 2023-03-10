@@ -48,6 +48,22 @@ function editTodo(callback, data) {
     })
 }
 
+function toggleTodoAPI(callback, data) {
+  fetch(`${API_URL}/tasks/${data.todoId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      completed: data.newCompleted
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then((res) => res.json())
+  .then(data => {
+    callback(data)
+  })
+}
+
 function App() {
 
   const [token, setToken] = useState('1c9f04c1-2f37-480d-9d1c-49ee47ba947f')
@@ -76,6 +92,12 @@ function App() {
     }, { todoId, newText})
   }
 
+  const toggleTodo = (todoId, newCompleted) => {
+    toggleTodoAPI(() => {
+      fetchTodos()
+    }, { todoId, newCompleted})
+  }
+
   return (
     <div className="container-fluid mt-5" id="todos-app">
       <div className="container tasks">
@@ -91,6 +113,7 @@ function App() {
               todos={todos} 
               onDeleteTodo={deleteTodo} 
               onUpdateTodo={updateTodo} 
+              onToggleTodo={toggleTodo}
             />
           </>
         )}

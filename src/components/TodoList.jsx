@@ -6,7 +6,9 @@ function TodoList(props) {
       <ul className="list-group list-group-flush" id="task-list">
         {props.todos.map(todo => (
           <Todo 
-            key={todo.id} 
+            key={todo.id}
+            completed={todo.completed} 
+            onToggle={() => props.onToggleTodo(todo.id, !todo.completed)}
             onDelete={() => props.onDeleteTodo(todo.id)}
             onUpdate={(newTodo) => props.onUpdateTodo(todo.id, newTodo)}
           >

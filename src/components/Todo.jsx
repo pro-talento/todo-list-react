@@ -17,15 +17,23 @@ function Todo(props) {
   return (
     <li className="list-group-item">
       <div className="row">
-        <div className="col-8" onClick={() => console.log('Click en todo ...')}>
+        <div className="col-8">
           <input
-            // className="form-control ${completed ? 'task-done' : ''}" 
+            className={`form-control ${props.completed ? 'task-done' : ''}`}
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
             disabled={!editing}
           />
         </div>
-        <div className="col-2">
+        <div className="col-1">
+          <button 
+            className="btn btn-success" 
+            onClick={props.onToggle}
+          >
+          { props.completed ? '🔄' : '✅' }
+          </button>
+        </div>
+        <div className="col-1">
           <button 
             className="btn btn-warning" 
             onClick={handleEditingToggle}
@@ -33,7 +41,7 @@ function Todo(props) {
           ✏️
           </button>
         </div>
-        <div className="col-2">
+        <div className="col-1">
           <button 
             className="btn btn-danger" 
             onClick={props.onDelete}
