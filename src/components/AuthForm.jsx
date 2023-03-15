@@ -1,24 +1,5 @@
 import { useState } from 'react';
-
-const API_URL = 'http://localhost:8008';
-
-function loginUser(callback, data) {
-  fetch(`${API_URL}/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password,
-    })
-  })
-  .then(res => res.json())
-  .then(user => {
-    let session = user.id;
-    callback(session)
-  })
-}
+import api from '../utils/api';
 
 function AuthForm(props) {
   const [email, setEmail] = useState('');
@@ -26,7 +7,7 @@ function AuthForm(props) {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    loginUser((token) => {
+    api.loginUser((token) => {
       console.log({ token });
       localStorage.setItem('token', token);
       props.onSubmit(token);
