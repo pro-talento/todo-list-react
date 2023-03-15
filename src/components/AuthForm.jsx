@@ -27,8 +27,9 @@ function AuthForm(props) {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     loginUser((token) => {
-      console.log({ token })
-      props.onSubmit(token)
+      console.log({ token });
+      localStorage.setItem('token', token);
+      props.onSubmit(token);
     }, { email, password })
   }
 

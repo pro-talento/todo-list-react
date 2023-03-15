@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import AuthForm from "./components/AuthForm";
+import Header from './components/Header';
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 
@@ -66,7 +67,7 @@ function toggleTodoAPI(callback, data) {
 
 function App() {
 
-  const [token, setToken] = useState('1c9f04c1-2f37-480d-9d1c-49ee47ba947f')
+  const [token, setToken] = useState(localStorage.getItem('token'))
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
@@ -98,27 +99,39 @@ function App() {
     }, { todoId, newCompleted})
   }
 
+  const onLogoutHandler = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  }
+
   return (
-    <div className="container-fluid mt-5" id="todos-app">
-      <div className="container tasks">
-        {!token && <AuthForm onSubmit={(token) => setToken(token)} />}
-        {token && (
-          <>
-            <TodoInput token={token} onCreateTodo={() => {
-                fetchTodos()
-                console.log('Se actualiza la lista')
-                //...
-              }} />
-            <TodoList 
-              todos={todos} 
-              onDeleteTodo={deleteTodo} 
-              onUpdateTodo={updateTodo} 
-              onToggleTodo={toggleTodo}
-            />
-          </>
-        )}
+    <>
+      <Header 
+        isSession={token} 
+        onLogout={onLogoutHandler} 
+        onLogin={() => console.log('Inicia sesión')}
+      />
+      <div className="container-fluid mt-5" id="todos-app">
+        <div className="container tasks">
+          {!token && <AuthForm onSubmit={(token) => setToken(token)} />}
+          {token && (
+            <>
+              <TodoInput token={token} onCreateTodo={() => {
+                  fetchTodos()
+                  console.log('Se actualiza la lista')
+                  //...
+                }} />
+              <TodoList 
+                todos={todos} 
+                onDeleteTodo={deleteTodo} 
+                onUpdateTodo={updateTodo} 
+                onToggleTodo={toggleTodo}
+              />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
