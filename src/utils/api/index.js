@@ -81,10 +81,35 @@ function loginUser(callback, data) {
   })
 }
 
+function createUser(callback, data) {
+  fetch(`${API_URL}/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    })
+  })
+  .then(res => {
+    if (!res.ok) {
+      return res.json().then(error => {
+        callback({ error })
+      })
+    }
+    return res.json().then(data => {
+      callback({ data })
+    })
+  })
+}
+
 export default {
   loginUser,
   fetchTodoList,
   deleteTodoAPI,
   editTodo,
-  toggleTodoAPI
+  toggleTodoAPI,
+  createUser
 }

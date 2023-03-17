@@ -28,6 +28,12 @@ function App() {
     setToken(token)
   }
 
+  const onRegisterHandler = (token) => {
+    localStorage.setItem('token', token)
+    setToken(token)
+    navigate('todos')
+  }
+
   const onLogoutHandler = () => {
     localStorage.removeItem('token')
     setToken(null)
@@ -38,7 +44,7 @@ function App() {
       <Route path="/" element={<Root onLogout={onLogoutHandler} token={token} />}>
         <Route path="todos" element={<Todos token={token} />} />
         <Route path="login" element={<Login onLogin={onLoginHandler} />} />
-        <Route path="register" element={<Register onRegister={() => console.log('register')} />} />
+        <Route path="register" element={<Register onRegister={onRegisterHandler} />} />
       </Route>
     </Routes>
   )

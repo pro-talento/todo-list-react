@@ -10,6 +10,7 @@ function AuthForm(props) {
 
   const [signup, setSignup] = useState(props.isSignUp);
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
 
   const handleLogin = () => {
     if (!email) {
@@ -42,21 +43,24 @@ function AuthForm(props) {
     if (!confirmPassword) {
       return setError({ message: 'Por favor confirma tu password 🗝️'});
     }
+    if (!name) {
+      return setError({ message: 'Por favor dame tu nombre 🌎'});
+    }
     if (confirmPassword !== password) {
       return setError({ message: 'Las contraseñas no coinciden 🗝️!==🔑'});
     }
-    // setLoading(true);
-    // api.createUser(({ data: user, error }) => {
-    //   setTimeout(() => {
-    //     if (error) {
-    //       setError({ message: 'Inicio de sesión incorrecto 🚨'});
-    //     } else { 
-    //       localStorage.setItem('token', user.id);
-    //       props.onSubmit(user.id);
-    //     }
-    //     setLoading(false);
-    //   }, 3000)
-    // }, { email, password })
+    setLoading(true);
+    api.createUser(({ data: user, error }) => {
+      setTimeout(() => {
+        if (error) {
+          setError({ message: 'Inicio de sesión incorrecto 🚨'});
+        } else { 
+          localStorage.setItem('token', user.id);
+          props.onSubmit(user.id);
+        }
+        setLoading(false);
+      }, 3000)
+    }, { email, password, name })
   }
 
   const handleFormSubmit = (event) => {
@@ -90,6 +94,21 @@ function AuthForm(props) {
                 />
                 <div id="emailHelp" className="form-text">Por favor ingresa tu correo 😁</div>
               </div>
+              {signup && (
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">Nombre de usuario</label>
+                  <input 
+                    name="name" 
+                    type="text" 
+                    className="form-control" 
+                    id="name" 
+                    aria-describedby="nameHelp"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <div id="nameHelp" className="form-text">Por favor dame tu nombre... 😁</div>
+                </div>
+              )}
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">Contraseña</label>
                 <input  
