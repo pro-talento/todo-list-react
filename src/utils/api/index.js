@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8008';
+const API_URL = 'https://devf-pro-talento-todo-list-api.herokuapp.com';
 
 function fetchTodoList(callback, token) { 
   fetch(`${API_URL}/tasks`, {

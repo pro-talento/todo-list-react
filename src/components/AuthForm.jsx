@@ -79,7 +79,7 @@ function AuthForm(props) {
       <div className="container login">
         <section className="card mb-5">
           <div className="card-body">
-            <h1>{signup ? 'Crea tu cuenta 🚀' : 'Inicio de Sesión'}</h1>
+            <h1>{signup ? 'Crea tu cuenta 🚀' : 'Inicio de Sesión 🔑'}</h1>
             <form onSubmit={handleFormSubmit}>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Correo Electrónico</label>
