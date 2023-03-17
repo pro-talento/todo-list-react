@@ -8,8 +8,10 @@ function AuthForm(props) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const [signup, setSignup] = useState(props.isSignUp);
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleLogin = () => {
     if (!email) {
       return setError({ message: 'Ingresa tu email 📧'});
     }
@@ -30,12 +32,50 @@ function AuthForm(props) {
     }, { email, password })
   }
 
+  const handleSignUp = () => {
+    if (!email) {
+      return setError({ message: 'Ingresa tu email 📧'});
+    }
+    if (!password) {
+      return setError({ message: 'Ingresa tu password 🗝️'});
+    }
+    if (!confirmPassword) {
+      return setError({ message: 'Por favor confirma tu password 🗝️'});
+    }
+    if (confirmPassword !== password) {
+      return setError({ message: 'Las contraseñas no coinciden 🗝️!==🔑'});
+    }
+    // setLoading(true);
+    // api.createUser(({ data: user, error }) => {
+    //   setTimeout(() => {
+    //     if (error) {
+    //       setError({ message: 'Inicio de sesión incorrecto 🚨'});
+    //     } else { 
+    //       localStorage.setItem('token', user.id);
+    //       props.onSubmit(user.id);
+    //     }
+    //     setLoading(false);
+    //   }, 3000)
+    // }, { email, password })
+  }
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    if (signup) {
+      handleSignUp()
+    } else {
+      handleLogin()
+    }
+  }
+
+  const textButton = signup ? 'Registrate' : 'Inicia Sesión';
+
   return (
     <div className="container-fluid mt-5">
       <div className="container login">
         <section className="card mb-5">
           <div className="card-body">
-            <h1>Inicio de Sesión</h1>
+            <h1>{signup ? 'Crea tu cuenta 🚀' : 'Inicio de Sesión'}</h1>
             <form onSubmit={handleFormSubmit}>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Correo Electrónico</label>
@@ -51,26 +91,39 @@ function AuthForm(props) {
                 <div id="emailHelp" className="form-text">Por favor ingresa tu correo 😁</div>
               </div>
               <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
+                <label htmlFor="password" className="form-label">Contraseña</label>
                 <input  
                   name="password" 
                   type="password" 
                   className="form-control" 
-                  id="exampleInputPassword1" 
+                  id="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}  
                 />
               </div>
+              {signup && (
+                <div className="mb-3">
+                  <label htmlFor="password-confirm" className="form-label">Confirma tu constraseña</label>
+                  <input  
+                    name="password-confirm" 
+                    type="password" 
+                    className="form-control" 
+                    id="password-confirm" 
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}  
+                  />
+                </div>
+              )}
               {/* <div className="mb-3 form-check">
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                 <label className="form-check-label" htmlFor="exampleCheck1">Mantener sesión iniciada</label>
               </div> */}
-              {error && <div class="alert alert-danger" role="alert">{error.message}</div>}
+              {error && <div className="alert alert-danger" role="alert">{error.message}</div>}
               <button 
                 type="submit" 
                 className="btn btn-primary btn-lg w-100"
                 disabled={loading}
-              >{loading ? '⏱️' : 'Submit'}</button>
+              >{loading ? '⏱️' : textButton}</button>
             </form>    
           </div>
         </section>

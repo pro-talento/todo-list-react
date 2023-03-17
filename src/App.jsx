@@ -1,19 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router';
+import { Route, Routes, useNavigate, useLocation } from 'react-router';
 
 import Root from './routes/root';
 import Todos from './routes/todos';
 import Login from './routes/login';
+import Register from './routes/register';
 
 function App() {
   let navigate = useNavigate()
+  let location = useLocation()
   const [token, setToken] = useState(localStorage.getItem('token'));
 
+  console.log(location)
+
   useEffect(() => {
-    if (token) {
-      navigate('todos')
-    } else {
-      navigate('login')
+    if (location.pathname !== '/register') {
+      if (token) {
+        navigate('todos')
+      } else {
+        navigate('login')
+      }
     }
   }, [token])
 
@@ -32,6 +38,7 @@ function App() {
       <Route path="/" element={<Root onLogout={onLogoutHandler} token={token} />}>
         <Route path="todos" element={<Todos token={token} />} />
         <Route path="login" element={<Login onLogin={onLoginHandler} />} />
+        <Route path="register" element={<Register onRegister={() => console.log('register')} />} />
       </Route>
     </Routes>
   )
