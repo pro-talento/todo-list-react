@@ -68,10 +68,16 @@ function loginUser(callback, data) {
       password: data.password,
     })
   })
-  .then(res => res.json())
-  .then(user => {
-    let session = user.id;
-    callback(session)
+  .then(res => {
+    if (!res.ok) {
+      return res.json().then(error => {
+        callback({ error })
+      })
+    }
+
+    return res.json().then(data => {
+      callback({ data })
+    })
   })
 }
 

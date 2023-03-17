@@ -5,12 +5,28 @@ function AuthForm(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    api.loginUser((token) => {
-      console.log({ token });
-      localStorage.setItem('token', token);
-      props.onSubmit(token);
+    if (!email) {
+      return setError({ message: 'Ingresa tu email 📧'});
+    }
+    if (!password) {
+      return setError({ message: 'Ingresa tu password 🗝️'});
+    }
+    setLoading(true);
+    api.loginUser(({ data: user, error }) => {
+      setTimeout(() => {
+        if (error) {
+          setError({ message: 'Inicio de sesión incorrecto 🚨'});
+        } else { 
+          localStorage.setItem('token', user.id);
+          props.onSubmit(user.id);
+        }
+        setLoading(false);
+      }, 3000)
     }, { email, password })
   }
 
@@ -49,7 +65,12 @@ function AuthForm(props) {
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                 <label className="form-check-label" htmlFor="exampleCheck1">Mantener sesión iniciada</label>
               </div> */}
-              <button type="submit" className="btn btn-primary btn-lg w-100">Submit</button>
+              {error && <div class="alert alert-danger" role="alert">{error.message}</div>}
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-lg w-100"
+                disabled={loading}
+              >{loading ? '⏱️' : 'Submit'}</button>
             </form>    
           </div>
         </section>
