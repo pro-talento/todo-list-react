@@ -19,9 +19,10 @@ function AuthForm(props) {
       <div className="container login">
         <section className="card mb-5">
           <div className="card-body">
+            <h1>Inicio de Sesión</h1>
             <form onSubmit={handleFormSubmit}>
               <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Correo Electrónico</label>
                 <input 
                   name="email" 
                   type="email" 
@@ -31,10 +32,10 @@ function AuthForm(props) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                <div id="emailHelp" className="form-text">Por favor ingresa tu correo 😁</div>
               </div>
               <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
                 <input  
                   name="password" 
                   type="password" 
@@ -44,11 +45,11 @@ function AuthForm(props) {
                   onChange={(e) => setPassword(e.target.value)}  
                 />
               </div>
-              <div className="mb-3 form-check">
+              {/* <div className="mb-3 form-check">
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-              </div>
-              <button type="submit" className="btn btn-primary">Submit</button>
+                <label className="form-check-label" htmlFor="exampleCheck1">Mantener sesión iniciada</label>
+              </div> */}
+              <button type="submit" className="btn btn-primary btn-lg w-100">Submit</button>
             </form>    
           </div>
         </section>
